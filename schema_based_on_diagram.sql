@@ -26,3 +26,13 @@ CREATE TABLE invoices (
     medical_history_id INT UNIQUE,
     FOREIGN KEY (medical_history_id) REFERENCES medical_histories(id),
 );
+
+CREATE TABLE invoice_items (
+    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    unit_price REAL NOT NULL,
+    quantity INT NOT NULL,
+    total_price REAL NOT NULL,
+    invoice_id INT NOT NULL,
+    treatment_id INT NOT NULL FOREIGN KEY (invoice_id) REFERENCES invoices(id),
+    FOREIGN KEY (treatment_id) REFERENCES treatments(id),
+);
