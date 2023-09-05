@@ -1,21 +1,20 @@
-CREATE TABLE patients
-(
-	id SERIAL PRIMARY KEY,
-	name VARCHAR(255) not null,
-	date_of_birth DATE not null
+CREATE TABLE patients (
+    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR(255) not null,
+    date_of_birth DATE not null
 );
 
 CREATE TABLE medical_histories (
-	id SERIAL PRIMARY KEY,
+    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     admitted_at timestamp,
-	status VARCHAR(255) NOT NULL,
-	patient_id int REFERENCES patients(id)
-); 
+    status VARCHAR(255) NOT NULL,
+    patient_id int REFERENCES patients(id)
+);
 
 CREATE TABLE treatments (
-	id SERIAL PRIMARY KEY,
-	type VARCHAR(255) NOT NULL, 
-	name VARCHAR(255) NOT NULL
+    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    type VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE invoices (
@@ -33,6 +32,7 @@ CREATE TABLE invoice_items (
     quantity INT NOT NULL,
     total_price REAL NOT NULL,
     invoice_id INT NOT NULL,
-    treatment_id INT NOT NULL FOREIGN KEY (invoice_id) REFERENCES invoices(id),
-    FOREIGN KEY (treatment_id) REFERENCES treatments(id),
+    FOREIGN KEY (treatment_id) REFERENCES treatments(id)
+);
+
 );
