@@ -1,14 +1,15 @@
 CREATE TABLE patients (
     id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name VARCHAR(255) not null,
-    date_of_birth DATE not null
+    name VARCHAR(255) NOT NULL,
+    date_of_birth DATE NOT NULL
 );
 
 CREATE TABLE medical_histories (
     id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    admitted_at timestamp,
+    admitted_at TIMESTAMP NOT NULL,
     status VARCHAR(255) NOT NULL,
-    patient_id int REFERENCES patients(id)
+    patient_id INT NOT NULL,
+    FOREIGN KEY (patient_id) REFERENCES patients(id)
 );
 
 CREATE TABLE treatments (
@@ -23,7 +24,7 @@ CREATE TABLE invoices (
     generated_at TIMESTAMP NOT NULL,
     paid_at TIMESTAMP NOT NULL,
     medical_history_id INT UNIQUE,
-    FOREIGN KEY (medical_history_id) REFERENCES medical_histories(id),
+    FOREIGN KEY (medical_history_id) REFERENCES medical_histories(id)
 );
 
 CREATE TABLE invoice_items (
@@ -32,7 +33,14 @@ CREATE TABLE invoice_items (
     quantity INT NOT NULL,
     total_price REAL NOT NULL,
     invoice_id INT NOT NULL,
+    treatment_id INT NOT NULL,
+    FOREIGN KEY (invoice_id) REFERENCES invoices(id),
     FOREIGN KEY (treatment_id) REFERENCES treatments(id)
 );
 
+CREATE TABLE medical_history_treatments (
+    medical_history_id INT,
+    treatment_id INT,
+    FOREIGN KEY (medical_history_id) REFERENCES medical_histories(id),
+    FOREIGN KEY (treatment_id) REFERENCES treatments(id)
 );
